@@ -1,0 +1,12 @@
+import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
+import { motion } from 'framer-motion';
+import { LotusDivider } from '@/components/brand';
+const VALUES = [
+    { icon: '⚜️', title: 'Heritage Craftsmanship', desc: 'Each piece is handcrafted by artisans following 500-year-old Indian jewellery traditions.' },
+    { icon: '✦', title: 'BIS Hallmarked Gold', desc: 'Every piece of gold jewellery carries the Bureau of Indian Standards hallmark — guaranteed purity.' },
+    { icon: '💎', title: 'IGI/GIA Certified Stones', desc: 'All diamonds and precious gemstones come with internationally recognized certification.' },
+    { icon: '🌿', title: 'Responsible Sourcing', desc: 'We partner only with ethically certified mines and refineries for conflict-free jewellery.' },
+];
+export function BrandStory() {
+    return (_jsx("section", { className: "bg-[#F8F4E8] py-20", children: _jsxs("div", { className: "max-w-7xl mx-auto px-4 sm:px-6", children: [_jsxs("div", { className: "text-center mb-12", children: [_jsx("p", { className: "text-xs tracking-[0.4em] text-[#C9933A] uppercase mb-3", children: "Our Promise" }), _jsxs("h2", { className: "heading-xl text-[#1a0e0e] mb-4", style: { fontFamily: 'var(--font-cormorant)' }, children: ["Crafted with ", _jsx("span", { className: "gold-text", children: "Integrity" })] }), _jsx("p", { className: "text-[#6B6560] max-w-2xl mx-auto leading-relaxed", children: "At PRCJ, every ornament carries the soul of Indian craftsmanship passed down through generations. We merge timeless artisanal techniques with modern design to create jewellery that becomes your most treasured possession." })] }), _jsx(LotusDivider, { className: "mb-12" }), _jsx("div", { className: "grid sm:grid-cols-2 lg:grid-cols-4 gap-6", children: VALUES.map((v, i) => (_jsxs(motion.div, { initial: { opacity: 0, y: 20 }, whileInView: { opacity: 1, y: 0 }, viewport: { once: true }, transition: { delay: i * 0.1 }, className: "text-center p-6 bg-white rounded-2xl border border-[#E8C97A]/30 hover:border-[#C9933A]/50 hover:shadow-lg transition-all duration-300", children: [_jsx("div", { className: "text-3xl mb-4", children: v.icon }), _jsx("h3", { className: "text-base font-semibold text-[#1a0e0e] mb-2", style: { fontFamily: 'var(--font-cormorant)' }, children: v.title }), _jsx("p", { className: "text-sm text-[#6B6560] leading-relaxed", children: v.desc })] }, v.title))) })] }) }));
+}

@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none">
+  <circle cx="100" cy="100" r="90" stroke="#C9933A" stroke-width="1.5" stroke-dasharray="4 4"/>
+  <circle cx="100" cy="100" r="70" stroke="#C9933A" stroke-width="1"/>
+  <circle cx="100" cy="100" r="50" stroke="#E8C97A" stroke-width="1.5"/>
+  <circle cx="100" cy="100" r="30" stroke="#C9933A" stroke-width="1"/>
+  <circle cx="100" cy="100" r="12" fill="#C9933A" opacity="0.3"/>
+  <!-- Petals -->
+  <g stroke="#C9933A" stroke-width="1" fill="none">
+    <ellipse cx="100" cy="65" rx="6" ry="15" transform="rotate(0 100 100)"/>
+    <ellipse cx="100" cy="65" rx="6" ry="15" transform="rotate(45 100 100)"/>
+    <ellipse cx="100" cy="65" rx="6" ry="15" transform="rotate(90 100 100)"/>
+    <ellipse cx="100" cy="65" rx="6" ry="15" transform="rotate(135 100 100)"/>
+    <ellipse cx="100" cy="65" rx="6" ry="15" transform="rotate(180 100 100)"/>
+    <ellipse cx="100" cy="65" rx="6" ry="15" transform="rotate(225 100 100)"/>
+    <ellipse cx="100" cy="65" rx="6" ry="15" transform="rotate(270 100 100)"/>
+    <ellipse cx="100" cy="65" rx="6" ry="15" transform="rotate(315 100 100)"/>
+  </g>
+  <!-- Outer petals -->
+  <g stroke="#E8C97A" stroke-width="0.8" fill="rgba(201,147,58,0.05)">
+    <ellipse cx="100" cy="22" rx="7" ry="18" transform="rotate(0 100 100)"/>
+    <ellipse cx="100" cy="22" rx="7" ry="18" transform="rotate(30 100 100)"/>
+    <ellipse cx="100" cy="22" rx="7" ry="18" transform="rotate(60 100 100)"/>
+    <ellipse cx="100" cy="22" rx="7" ry="18" transform="rotate(90 100 100)"/>
+    <ellipse cx="100" cy="22" rx="7" ry="18" transform="rotate(120 100 100)"/>
+    <ellipse cx="100" cy="22" rx="7" ry="18" transform="rotate(150 100 100)"/>
+    <ellipse cx="100" cy="22" rx="7" ry="18" transform="rotate(180 100 100)"/>
+    <ellipse cx="100" cy="22" rx="7" ry="18" transform="rotate(210 100 100)"/>
+    <ellipse cx="100" cy="22" rx="7" ry="18" transform="rotate(240 100 100)"/>
+    <ellipse cx="100" cy="22" rx="7" ry="18" transform="rotate(270 100 100)"/>
+    <ellipse cx="100" cy="22" rx="7" ry="18" transform="rotate(300 100 100)"/>
+    <ellipse cx="100" cy="22" rx="7" ry="18" transform="rotate(330 100 100)"/>
+  </g>
+  <!-- Dots on circle -->
+  <circle cx="100" cy="10" r="3" fill="#C9933A" transform="rotate(0 100 100)"/>
+  <circle cx="100" cy="10" r="3" fill="#C9933A" transform="rotate(45 100 100)"/>
+  <circle cx="100" cy="10" r="3" fill="#C9933A" transform="rotate(90 100 100)"/>
+  <circle cx="100" cy="10" r="3" fill="#C9933A" transform="rotate(135 100 100)"/>
+  <circle cx="100" cy="10" r="3" fill="#C9933A" transform="rotate(180 100 100)"/>
+  <circle cx="100" cy="10" r="3" fill="#C9933A" transform="rotate(225 100 100)"/>
+  <circle cx="100" cy="10" r="3" fill="#C9933A" transform="rotate(270 100 100)"/>
+  <circle cx="100" cy="10" r="3" fill="#C9933A" transform="rotate(315 100 100)"/>
+</svg>
