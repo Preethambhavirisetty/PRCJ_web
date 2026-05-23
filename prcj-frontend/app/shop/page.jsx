@@ -33,38 +33,38 @@ function ShopContent() {
     const q = searchParams.get('q') ?? '';
     const isFeatured = searchParams.get('featured') === 'true';
     const params = {
-        search: q || undefined,
+        q: q || undefined,
         is_featured: isFeatured || undefined,
         sort_by: sort,
         min_price: priceRange[0] > 0 ? priceRange[0] : undefined,
         max_price: priceRange[1] < 500000 ? priceRange[1] : undefined,
         metal_type: selectedMetals.length === 1 ? selectedMetals[0] : undefined,
-        category_id: selectedCategories.length === 1 ? selectedCategories[0] : undefined,
+        category_slug: selectedCategories.length === 1 ? selectedCategories[0] : undefined,
         page,
-        size: 20,
+        page_size: 20,
     };
     const { data: productsData, isLoading } = useQuery({
         queryKey: ['products', params],
         queryFn: async () => {
             const res = await productsAPI.list(params);
-            return res.data.data;
+            return res.data;
         },
     });
     const { data: categories } = useQuery({
         queryKey: ['categories'],
         queryFn: async () => {
             const res = await categoriesAPI.tree();
-            return res.data.data;
+            return res.data.data ?? [];
         },
     });
     const products = productsData?.items ?? [];
-    const totalPages = productsData?.pages ?? 1;
+    const totalPages = productsData?.total_pages ?? 1;
     const toggleMetal = (metal) => {
         setSelectedMetals((prev) => prev.includes(metal) ? prev.filter((m) => m !== metal) : [...prev, metal]);
         setPage(1);
     };
-    const toggleCategory = (id) => {
-        setSelectedCategories((prev) => prev.includes(id) ? prev.filter((c) => c !== id) : [...prev, id]);
+    const toggleCategory = (slug) => {
+        setSelectedCategories((prev) => prev.includes(slug) ? prev.filter((c) => c !== slug) : [...prev, slug]);
         setPage(1);
     };
     const clearAll = () => {
@@ -75,7 +75,7 @@ function ShopContent() {
     };
     const activeFilters = selectedMetals.length + selectedCategories.length +
         (priceRange[0] > 0 || priceRange[1] < 500000 ? 1 : 0);
-    const Sidebar = () => (_jsxs("aside", { className: "w-72 shrink-0 space-y-6", children: [_jsxs("div", { className: "flex items-center justify-between", children: [_jsx("h3", { className: "font-semibold text-[#1a0e0e]", style: { fontFamily: 'var(--font-cormorant)', fontSize: '18px' }, children: "Filters" }), activeFilters > 0 && (_jsxs("button", { onClick: clearAll, className: "text-xs text-[#C9933A] hover:text-[#A8771F] flex items-center gap-1", children: ["Clear all (", activeFilters, ")"] }))] }), _jsxs("div", { children: [_jsx("p", { className: "text-xs font-bold text-[#C9933A] uppercase tracking-widest mb-3", children: "Category" }), _jsx("div", { className: "space-y-2 max-h-48 overflow-y-auto pr-1", children: (categories ?? []).slice(0, 12).map((cat) => (_jsxs("label", { className: "flex items-center gap-2 cursor-pointer group", children: [_jsx("input", { type: "checkbox", checked: selectedCategories.includes(cat.id), onChange: () => toggleCategory(cat.id), className: "w-4 h-4 rounded accent-[#C9933A]" }), _jsx("span", { className: "text-sm text-[#1a0e0e] group-hover:text-[#C9933A] transition-colors", children: cat.name })] }, cat.id))) })] }), _jsx(LotusDivider, {}), _jsxs("div", { children: [_jsx("p", { className: "text-xs font-bold text-[#C9933A] uppercase tracking-widest mb-3", children: "Metal Type" }), _jsx("div", { className: "flex flex-wrap gap-2", children: METAL_TYPES.map((metal) => (_jsx("button", { onClick: () => toggleMetal(metal), className: `px-2.5 py-1 text-xs rounded-full border transition-colors ${selectedMetals.includes(metal)
+    const Sidebar = () => (_jsxs("aside", { className: "w-72 shrink-0 space-y-6", children: [_jsxs("div", { className: "flex items-center justify-between", children: [_jsx("h3", { className: "font-semibold text-[#1a0e0e]", style: { fontFamily: 'var(--font-cormorant)', fontSize: '18px' }, children: "Filters" }), activeFilters > 0 && (_jsxs("button", { onClick: clearAll, className: "text-xs text-[#C9933A] hover:text-[#A8771F] flex items-center gap-1", children: ["Clear all (", activeFilters, ")"] }))] }), _jsxs("div", { children: [_jsx("p", { className: "text-xs font-bold text-[#C9933A] uppercase tracking-widest mb-3", children: "Category" }), _jsx("div", { className: "space-y-2 max-h-48 overflow-y-auto pr-1", children: (categories ?? []).slice(0, 12).map((cat) => (_jsxs("label", { className: "flex items-center gap-2 cursor-pointer group", children: [_jsx("input", { type: "checkbox", checked: selectedCategories.includes(cat.slug), onChange: () => toggleCategory(cat.slug), className: "w-4 h-4 rounded accent-[#C9933A]" }), _jsx("span", { className: "text-sm text-[#1a0e0e] group-hover:text-[#C9933A] transition-colors", children: cat.name })] }, cat.slug))) })] }), _jsx(LotusDivider, {}), _jsxs("div", { children: [_jsx("p", { className: "text-xs font-bold text-[#C9933A] uppercase tracking-widest mb-3", children: "Metal Type" }), _jsx("div", { className: "flex flex-wrap gap-2", children: METAL_TYPES.map((metal) => (_jsx("button", { onClick: () => toggleMetal(metal), className: `px-2.5 py-1 text-xs rounded-full border transition-colors ${selectedMetals.includes(metal)
                                 ? 'bg-[#C9933A] text-white border-[#C9933A]'
                                 : 'border-[#E8C97A]/50 text-[#6B6560] hover:border-[#C9933A] hover:text-[#C9933A]'}`, children: metal }, metal))) })] }), _jsx(LotusDivider, {}), _jsxs("div", { children: [_jsx("p", { className: "text-xs font-bold text-[#C9933A] uppercase tracking-widest mb-3", children: "Price Range" }), _jsxs("div", { className: "space-y-3", children: [_jsxs("div", { className: "flex justify-between text-xs text-[#6B6560]", children: [_jsx("span", { children: formatCurrency(priceRange[0]) }), _jsx("span", { children: formatCurrency(priceRange[1]) })] }), _jsx("input", { type: "range", min: 0, max: 500000, step: 5000, value: priceRange[1], onChange: (e) => setPriceRange([priceRange[0], Number(e.target.value)]), className: "w-full accent-[#C9933A]" }), _jsx("div", { className: "grid grid-cols-2 gap-2", children: [10000, 25000, 50000, 100000, 200000].map((price) => (_jsxs("button", { onClick: () => setPriceRange([0, price]), className: `text-xs py-1.5 px-2 rounded border transition-colors ${priceRange[1] === price && priceRange[0] === 0
                                         ? 'bg-[#C9933A] text-white border-[#C9933A]'

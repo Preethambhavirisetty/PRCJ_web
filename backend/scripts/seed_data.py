@@ -7,10 +7,12 @@ Run: python -m scripts.seed_data
 import asyncio
 import sys
 import os
+import hashlib
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 
 from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy import select
 from app.database import AsyncSessionLocal, engine, Base
 from app.models.category import Category, Collection, GenderTarget
 from app.models.product import Product, ProductImage, MetalType, ProductStatus, ImageType
@@ -22,26 +24,51 @@ import uuid
 from decimal import Decimal
 
 
-# ── Cloudinary placeholder URLs (replaced by real uploads in production) ───────
+# ── Seed image URLs (gold ornaments only) ───────────────────────────────────────
 #
-#  Format: https://res.cloudinary.com/{cloud}/image/upload/{transform}/prcj/{sku}/{type}.jpg
-#  We simulate multiple angles per product.
+# Deterministic Pexels photos focused on gold jewellery so seeded catalog does
+# not show unrelated/random landscape imagery.
 #
+GOLD_ORNAMENT_PEXELS_IDS = [
+    "12194263",
+    "12194264",
+    "12194265",
+    "12194379",
+    "12194380",
+    "12194385",
+    "12194387",
+]
+
+def _pick_gold_photo_id(key: str) -> str:
+    digest = hashlib.sha256(key.encode("utf-8")).hexdigest()
+    idx = int(digest[:8], 16) % len(GOLD_ORNAMENT_PEXELS_IDS)
+    return GOLD_ORNAMENT_PEXELS_IDS[idx]
+
+def _pexels_variant(photo_id: str, w: int, h: int) -> str:
+    return (
+        f"https://images.pexels.com/photos/{photo_id}/pexels-photo-{photo_id}.jpeg"
+        f"?auto=compress&cs=tinysrgb&w={w}&h={h}&fit=crop"
+    )
+
 def _img(sku: str, angle: str, w: int = 7680, h: int = 4320) -> str:
-    """Placeholder 8K image URL — swap with real Cloudinary URLs in production."""
-    return f"https://placehold.co/{w}x{h}/1a0a00/ffd700?text=PRCJ+{sku}+{angle}"
+    photo_id = _pick_gold_photo_id(f"{sku}-{angle}-base")
+    return _pexels_variant(photo_id, w, h)
 
 def _thumb(sku: str, angle: str) -> str:
-    return f"https://placehold.co/400x400/1a0a00/ffd700?text={sku}+{angle}"
+    photo_id = _pick_gold_photo_id(f"{sku}-{angle}-thumb")
+    return _pexels_variant(photo_id, 400, 400)
 
 def _medium(sku: str, angle: str) -> str:
-    return f"https://placehold.co/800x800/1a0a00/ffd700?text={sku}+{angle}"
+    photo_id = _pick_gold_photo_id(f"{sku}-{angle}-medium")
+    return _pexels_variant(photo_id, 800, 800)
 
 def _large(sku: str, angle: str) -> str:
-    return f"https://placehold.co/2000x2000/1a0a00/ffd700?text={sku}+{angle}"
+    photo_id = _pick_gold_photo_id(f"{sku}-{angle}-large")
+    return _pexels_variant(photo_id, 2000, 2000)
 
 def _zoom(sku: str, angle: str) -> str:
-    return f"https://placehold.co/4000x4000/1a0a00/ffd700?text={sku}+{angle}"
+    photo_id = _pick_gold_photo_id(f"{sku}-{angle}-zoom")
+    return _pexels_variant(photo_id, 4000, 4000)
 
 
 def _make_images(sku: str, product_name: str) -> list[dict]:
@@ -630,12 +657,19 @@ async def seed():
                     .replace("&", "and").replace("/", "-").replace("'", "")
                 )
                 parent_slug = f"{gender_key}-{parent_slug}"
-                parent_cat = Category(
-                    name=parent_name, slug=parent_slug,
-                    gender=gender, sort_order=i, is_active=True,
+                parent_cat = await db.scalar(
+                    select(Category).where(Category.slug == parent_slug)
                 )
-                db.add(parent_cat)
-                await db.flush()
+                if not parent_cat:
+                    parent_cat = Category(
+                        name=parent_name,
+                        slug=parent_slug,
+                        gender=gender,
+                        sort_order=i,
+                        is_active=True,
+                    )
+                    db.add(parent_cat)
+                    await db.flush()
                 category_lookup[parent_name] = parent_cat
 
                 for j, child_name in enumerate(children):
@@ -645,26 +679,67 @@ async def seed():
                         .replace("&", "and").replace("/", "-").replace("'", "")
                     )
                     child_slug = f"{parent_slug}-{child_slug}"
-                    child_cat = Category(
-                        name=child_name, slug=child_slug,
-                        gender=gender, parent_id=parent_cat.id,
-                        sort_order=j, is_active=True,
+                    child_cat = await db.scalar(
+                        select(Category).where(Category.slug == child_slug)
                     )
-                    db.add(child_cat)
+                    if not child_cat:
+                        child_cat = Category(
+                            name=child_name,
+                            slug=child_slug,
+                            gender=gender,
+                            parent_id=parent_cat.id,
+                            sort_order=j,
+                            is_active=True,
+                        )
+                        db.add(child_cat)
                     category_lookup[child_name] = child_cat
 
         await db.flush()
-        print(f"  ✅ {len(category_lookup)} categories created.")
+        print(f"  ✅ {len(category_lookup)} categories ensured.")
 
         # ── Products with rich images + 3D models ─────────────────────────────
         print("  → Creating products with 11 images + 3D model each...")
         products_created = []
 
-        for p_data in SAMPLE_PRODUCTS:
+        products_skipped = 0
+        for raw_product in SAMPLE_PRODUCTS:
+            p_data = dict(raw_product)
             cat_key = p_data.pop("category_key")
             placement_type = p_data.pop("placement_type")
             lighting_preset = p_data.pop("lighting_preset")
             polygon_count = p_data.pop("polygon_count")
+
+            existing_product = await db.scalar(
+                select(Product).where(Product.sku == p_data["sku"])
+            )
+            if existing_product:
+                existing_images = (
+                    await db.scalars(
+                        select(ProductImage)
+                        .where(ProductImage.product_id == existing_product.id)
+                        .order_by(ProductImage.sort_order.asc())
+                    )
+                ).all()
+                template_images = _make_images(existing_product.sku, existing_product.name)
+
+                for idx, tpl in enumerate(template_images):
+                    if idx < len(existing_images):
+                        existing_img = existing_images[idx]
+                        existing_img.url = tpl["url"]
+                        existing_img.thumbnail_url = tpl["thumbnail_url"]
+                        existing_img.medium_url = tpl["medium_url"]
+                        existing_img.large_url = tpl["large_url"]
+                        existing_img.zoom_url = tpl["zoom_url"]
+                        existing_img.alt_text = tpl["alt_text"]
+                        existing_img.image_type = tpl["image_type"]
+                        existing_img.is_primary = tpl["is_primary"]
+                        existing_img.sort_order = tpl["sort_order"]
+                    else:
+                        db.add(ProductImage(product_id=existing_product.id, **tpl))
+
+                products_skipped += 1
+                products_created.append(existing_product)
+                continue
 
             cat = category_lookup.get(cat_key)
             if not cat:
@@ -697,23 +772,35 @@ async def seed():
             products_created.append(product)
 
         await db.flush()
-        print(f"  ✅ {len(products_created)} products × 11 images + 3D model each = "
-              f"{len(products_created) * 11} images, {len(products_created)} 3D models.")
+        print(
+            f"  ✅ {len(products_created) - products_skipped} products created, "
+            f"{products_skipped} already existed."
+        )
 
         # ── Collections ───────────────────────────────────────────────────────
         print("  → Creating curated collections...")
+        collections_created = 0
+        collections_skipped = 0
         for c_data in COLLECTIONS_DATA:
+            existing_collection = await db.scalar(
+                select(Collection).where(Collection.slug == c_data["slug"])
+            )
+            if existing_collection:
+                collections_skipped += 1
+                continue
             db.add(Collection(**c_data, is_active=True))
+            collections_created += 1
         await db.flush()
-        print(f"  ✅ {len(COLLECTIONS_DATA)} collections.")
+        print(
+            f"  ✅ {collections_created} collections created, "
+            f"{collections_skipped} already existed."
+        )
 
         await db.commit()
         print("\n✨ PRCJ seed complete!")
         print(f"   Categories : {len(category_lookup)}")
-        print(f"   Products   : {len(products_created)}")
-        print(f"   Images     : {len(products_created) * 11} (11 per product, 8K resolution)")
-        print(f"   3D Models  : {len(products_created)} (GLB + USDZ per product)")
-        print(f"   Collections: {len(COLLECTIONS_DATA)}")
+        print(f"   Products   : {len(products_created)} total (new + existing)")
+        print(f"   Collections: {collections_created + collections_skipped} total")
         print("\n   All products have virtual try-on 3D models enabled. ✓")
 
 

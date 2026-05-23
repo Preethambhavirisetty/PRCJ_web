@@ -32,7 +32,9 @@ Pillow==11.0.0
 python-magic==0.4.27
 
 # ── 3D Try-On — MediaPipe + Computer Vision ───────────────────────────────────
-mediapipe==0.10.33          # Face mesh, pose, hands landmark detection
+# Keep ARM-compatible pin for Docker/Apple Silicon; newer pin for x86_64.
+mediapipe==0.10.18; platform_machine == "aarch64" or platform_machine == "arm64"
+mediapipe==0.10.33; platform_machine != "aarch64" and platform_machine != "arm64"
 opencv-python-headless      # Image decoding (headless = no GUI deps)
 numpy>=1.26                 # Array ops for landmark processing
 

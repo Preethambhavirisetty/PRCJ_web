@@ -100,12 +100,12 @@ export const productsAPI = {
     list: (params) => api.get('/products', { params }),
     get: (slug) => api.get(`/products/${slug}`),
     getModel3D: (slug) => api.get(`/products/${slug}/3d`),
-    getFeatured: () => api.get('/products', { params: { is_featured: true, size: 8 } }),
-    getNewArrivals: () => api.get('/products', { params: { is_new_arrival: true, size: 8 } }),
-    getBestSellers: () => api.get('/products', { params: { is_best_seller: true, size: 8 } }),
+    getFeatured: () => api.get('/products', { params: { is_featured: true, page_size: 8 } }),
+    getNewArrivals: () => api.get('/products', { params: { is_new_arrival: true, page_size: 8 } }),
+    getBestSellers: () => api.get('/products', { params: { is_best_seller: true, page_size: 8 } }),
 };
 export const categoriesAPI = {
-    tree: () => api.get('/categories/tree'),
+    tree: () => api.get('/categories'),
     list: () => api.get('/categories'),
     get: (slug) => api.get(`/categories/${slug}`),
 };
@@ -160,6 +160,7 @@ export const adminAPI = {
     },
     products: {
         list: (params) => api.get('/admin/products', { params }),
+        get: (id) => api.get(`/admin/products/${id}`),
         create: (payload) => api.post('/admin/products', payload),
         update: (id, payload) => api.put(`/admin/products/${id}`, payload),
         delete: (id) => api.delete(`/admin/products/${id}`),
@@ -170,7 +171,7 @@ export const adminAPI = {
     orders: {
         list: (params) => api.get('/admin/orders', { params }),
         get: (id) => api.get(`/admin/orders/${id}`),
-        updateStatus: (id, status) => api.patch(`/admin/orders/${id}/status`, { status }),
+        updateStatus: (id, status) => api.put(`/admin/orders/${id}/status`, { status }),
     },
     users: {
         list: (params) => api.get('/admin/users', { params }),

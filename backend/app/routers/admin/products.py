@@ -1,8 +1,8 @@
 import uuid
-from typing import Annotated, List
+from typing import Annotated, List, Optional
 from fastapi import APIRouter, Depends, UploadFile, File, Form
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select
+from sqlalchemy import select, func, or_
 from sqlalchemy.orm import selectinload
 
 from app.database import get_db
@@ -37,22 +37,30 @@ async def _log_action(
     ))
 
 
-@router.get("", response_model=APIResponse)
+@router.get("", response_model=PaginatedResponse[ProductListOut])
 async def list_all_products(
     admin: Annotated[User, Depends(require_admin)],
     db: Annotated[AsyncSession, Depends(get_db)],
     page: int = 1,
     page_size: int = 24,
-    status: str = None,
+    status: Optional[str] = None,
+    search: Optional[str] = None,
 ):
-    from app.core.dependencies import PaginationParams
-    from sqlalchemy import func
     base_q = select(Product).options(
         selectinload(Product.images),
         selectinload(Product.category),
     )
     if status:
         base_q = base_q.where(Product.status == status)
+    if search:
+        term = f"%{search.strip()}%"
+        base_q = base_q.where(
+            or_(
+                Product.name.ilike(term),
+                Product.sku.ilike(term),
+                Product.slug.ilike(term),
+            )
+        )
 
     total = await db.scalar(select(func.count()).select_from(base_q.subquery()))
     offset = (page - 1) * page_size
@@ -69,12 +77,13 @@ async def list_all_products(
             out.primary_image = primary.thumbnail_url or primary.url
         items.append(out)
 
-    return APIResponse(data={
-        "items": [i.model_dump() for i in items],
-        "total": total,
-        "page": page,
-        "page_size": page_size,
-    })
+    return PaginatedResponse(
+        items=items,
+        total=total or 0,
+        page=page,
+        page_size=page_size,
+        total_pages=((total or 0) + page_size - 1) // page_size,
+    )
 
 
 @router.post("", response_model=APIResponse[ProductDetailOut], status_code=201)
