@@ -1,21 +1,140 @@
-import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import { Link } from '@/lib/router.jsx';
 import { motion } from 'framer-motion';
-import { ArrowRight, Sparkles } from 'lucide-react';
-import { BorderMotif } from '@/components/brand';
+import { ArrowRight, BadgeCheck, Gem, ShieldCheck, Sparkles } from 'lucide-react';
+
+const HERO_IMAGE =
+  'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?auto=format&fit=crop&w=1800&q=88';
+
+const FEATURED_PIECES = [
+  {
+    title: 'Temple Bridal Sets',
+    caption: 'Nakshi work in 22K gold',
+    href: '/shop?collection=bridal',
+    image: 'https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&w=700&q=86',
+  },
+  {
+    title: 'Kundan Earrings',
+    caption: 'Festive pieces with meenakari',
+    href: '/shop?q=kundan%20earrings',
+    image: 'https://images.unsplash.com/photo-1611591437281-460bfbe1220a?auto=format&fit=crop&w=700&q=86',
+  },
+  {
+    title: 'Diamond Rings',
+    caption: 'Everyday brilliance',
+    href: '/shop?q=diamond%20ring',
+    image: 'https://images.unsplash.com/photo-1605100804763-247f67b3557e?auto=format&fit=crop&w=700&q=86',
+  },
+];
+
+const TRUST = [
+  { icon: ShieldCheck, label: 'BIS Hallmarked' },
+  { icon: BadgeCheck, label: 'Certified Stones' },
+  { icon: Gem, label: 'Artisan Crafted' },
+];
+
 export function HeroBanner() {
-    return (_jsxs("section", { className: "relative min-h-[90vh] flex items-center overflow-hidden bg-[#1a0e0e]", children: [_jsx("div", { className: "absolute inset-0 opacity-10", style: {
-                    backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 100 100'%3E%3Cpath d='M50 10 C35 10 22 22 22 38 C22 54 35 61 47 58 C41 64 41 75 50 77 C59 75 59 64 53 58 C65 61 78 54 78 38 C78 22 65 10 50 10Z' fill='%23C9933A' opacity='1'/%3E%3Ccircle cx='50' cy='38' r='6' fill='%23C9933A'/%3E%3C/svg%3E")`,
-                    backgroundSize: '100px 100px',
-                } }), _jsx("div", { className: "absolute inset-0 bg-gradient-to-r from-[#1a0e0e] via-[#1a0e0e]/90 to-[#1a0e0e]/60" }), _jsx("div", { className: "absolute top-0 left-0 right-0", children: _jsx("div", { className: "h-1 bg-gradient-to-r from-transparent via-[#C9933A] to-transparent" }) }), _jsxs("div", { className: "relative z-10 max-w-7xl mx-auto px-4 sm:px-6 py-20 grid lg:grid-cols-2 gap-12 items-center", children: [_jsxs("div", { children: [_jsxs(motion.p, { initial: { opacity: 0, y: 20 }, animate: { opacity: 1, y: 0 }, transition: { delay: 0.1 }, className: "text-xs tracking-[0.4em] text-[#C9933A] uppercase mb-4 flex items-center gap-2", children: [_jsx("span", { className: "w-6 h-px bg-[#C9933A]" }), "India's Grandest Jewellery Store", _jsx("span", { className: "w-6 h-px bg-[#C9933A]" })] }), _jsx(motion.h1, { initial: { opacity: 0, y: 30 }, animate: { opacity: 1, y: 0 }, transition: { delay: 0.2 }, className: "heading-display text-white mb-2", style: { fontFamily: 'var(--font-cormorant)' }, children: "Jewellery That" }), _jsx(motion.h1, { initial: { opacity: 0, y: 30 }, animate: { opacity: 1, y: 0 }, transition: { delay: 0.3 }, className: "heading-display gold-text mb-6", style: { fontFamily: 'var(--font-cormorant)' }, children: "Tells Your Story" }), _jsx(motion.p, { initial: { opacity: 0, y: 20 }, animate: { opacity: 1, y: 0 }, transition: { delay: 0.4 }, className: "text-[#9e9790] text-lg leading-relaxed max-w-lg mb-8", children: "Exquisite BIS hallmarked jewellery crafted with centuries-old Indian artisanal traditions. From bridal sets to everyday elegance \u2014 all in 8K detail." }), _jsxs(motion.div, { initial: { opacity: 0, y: 20 }, animate: { opacity: 1, y: 0 }, transition: { delay: 0.5 }, className: "flex flex-wrap gap-4", children: [_jsxs(Link, { href: "/shop", className: "btn-gold text-sm px-8 py-3.5 flex items-center gap-2", children: ["Explore Collection", _jsx(ArrowRight, { size: 16 })] }), _jsxs(Link, { href: "/tryon", className: "btn-outline-gold text-sm px-8 py-3.5 flex items-center gap-2 border-[#C9933A]/60 text-[#E8C97A] hover:border-[#C9933A] hover:text-[#E8C97A]", children: [_jsx(Sparkles, { size: 16 }), "Try-On in 3D"] })] }), _jsx(motion.div, { initial: { opacity: 0 }, animate: { opacity: 1 }, transition: { delay: 0.7 }, className: "flex flex-wrap gap-4 mt-8", children: [
-                                    { value: '50K+', label: 'Happy Customers' },
-                                    { value: '10K+', label: 'Designs' },
-                                    { value: '100%', label: 'BIS Hallmarked' },
-                                    { value: '4.9★', label: 'Avg Rating' },
-                                ].map((badge) => (_jsxs("div", { className: "text-center", children: [_jsx("p", { className: "text-xl font-bold gold-text-static", style: { fontFamily: 'var(--font-cormorant)' }, children: badge.value }), _jsx("p", { className: "text-[10px] text-[#6B6560] uppercase tracking-wider", children: badge.label })] }, badge.label))) })] }), _jsx(motion.div, { initial: { opacity: 0, scale: 0.9 }, animate: { opacity: 1, scale: 1 }, transition: { delay: 0.4, duration: 0.8 }, className: "hidden lg:flex items-center justify-center", children: _jsxs("div", { className: "relative w-96 h-96", children: [_jsx("div", { className: "absolute inset-0 flex items-center justify-center opacity-20", children: _jsx("img", { src: "/motifs/mandala.svg", alt: "", className: "w-full h-full animate-[mandala-spin_20s_linear_infinite]" }) }), _jsx("div", { className: "absolute inset-8 rounded-full border-2 border-[#C9933A]/30 flex items-center justify-center bg-[#2a1212]/50 backdrop-blur-sm", children: _jsxs("div", { className: "text-center p-8", children: [_jsx("div", { className: "text-5xl mb-2", children: "\uD83D\uDC8E" }), _jsx("p", { className: "text-[#E8C97A] text-sm font-medium", style: { fontFamily: 'var(--font-cormorant)' }, children: "New Bridal Collection 2025" }), _jsx("p", { className: "text-[#C9933A] text-xs mt-1 tracking-wider uppercase", children: "Coming This Season" })] }) }), [
-                                    { label: '22K Gold', pos: 'top-2 left-4', delay: 0.6 },
-                                    { label: 'Diamond', pos: 'top-2 right-4', delay: 0.8 },
-                                    { label: 'Kundan', pos: 'bottom-2 left-4', delay: 1.0 },
-                                    { label: 'Polki', pos: 'bottom-2 right-4', delay: 1.2 },
-                                ].map((tag) => (_jsx(motion.div, { initial: { opacity: 0, scale: 0 }, animate: { opacity: 1, scale: 1 }, transition: { delay: tag.delay }, className: `absolute ${tag.pos} px-3 py-1.5 bg-[#C9933A]/20 border border-[#C9933A]/40 rounded-full text-xs text-[#E8C97A] font-medium backdrop-blur-sm`, children: tag.label }, tag.label)))] }) })] }), _jsx("div", { className: "absolute bottom-0 left-0 right-0", children: _jsx(BorderMotif, {}) })] }));
+  return (
+    <section className="relative overflow-hidden bg-[#120b0b] text-white">
+      <div className="absolute inset-0">
+        <img src={HERO_IMAGE} alt="Diamond and gold jewellery" className="h-full w-full object-cover" />
+        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(18,11,11,0.92)_0%,rgba(18,11,11,0.74)_42%,rgba(18,11,11,0.18)_100%)]" />
+        <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-[#FEFDF9] via-[#FEFDF9]/35 to-transparent" />
+      </div>
+
+      <div className="relative z-10 mx-auto grid min-h-[calc(100vh-112px)] max-w-7xl grid-rows-[1fr_auto] px-4 pt-14 sm:px-6 lg:min-h-[calc(100vh-120px)]">
+        <div className="grid items-center gap-10 py-16 lg:grid-cols-[0.95fr_1.05fr]">
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7 }}
+            className="max-w-3xl"
+          >
+            <p className="mb-5 flex items-center gap-3 text-xs uppercase tracking-[0.34em] text-[#E8C97A]">
+              <span className="h-px w-10 bg-[#C9933A]" />
+              PRCJ jewellery since 1997
+            </p>
+            <h1 className="max-w-4xl text-[clamp(3.6rem,9vw,8.9rem)] font-semibold leading-[0.86] text-[#FEFDF9]">
+              Grace in every ornament
+            </h1>
+            <p className="mt-7 max-w-xl text-base leading-7 text-[#eee5d3] sm:text-lg">
+              PRCJ imagines and crafts gold, platinum, silver, kundan, polki and diamond jewellery for weddings, festivals and the heirlooms you keep closest.
+            </p>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <Link href="/shop" className="btn-gold rounded-full px-7 py-3">
+                Shop Collection
+                <ArrowRight size={16} />
+              </Link>
+              <Link
+                href="/tryon"
+                className="inline-flex items-center justify-center gap-2 rounded-full border border-[#E8C97A]/55 bg-white/8 px-7 py-3 text-sm font-semibold uppercase tracking-[0.08em] text-[#F9E8B5] backdrop-blur-md transition hover:border-[#E8C97A] hover:bg-white/14"
+              >
+                <Sparkles size={16} />
+                Virtual Try-On
+              </Link>
+            </div>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, x: 32 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="hidden justify-end lg:flex"
+          >
+            <div className="w-full max-w-sm border border-white/16 bg-white/10 p-3 shadow-2xl backdrop-blur-xl">
+              <img
+                src="https://images.unsplash.com/photo-1601121141461-9d6647bca1ed?auto=format&fit=crop&w=900&q=86"
+                alt="Gold necklace detail"
+                className="aspect-[4/5] w-full object-cover"
+              />
+              <div className="flex items-center justify-between px-2 py-4">
+                <div>
+                  <p className="text-xs uppercase tracking-[0.26em] text-[#E8C97A]">Signature edit</p>
+                  <p className="mt-1 font-display text-2xl text-white">Royal by PRCJ</p>
+                </div>
+                <Link href="/shop?collection=bridal" className="rounded-full bg-[#FEFDF9] px-4 py-2 text-xs font-semibold text-[#1a0e0e]">
+                  View
+                </Link>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.35 }}
+          className="pb-6"
+        >
+          <div className="grid gap-3 md:grid-cols-[0.8fr_2fr] md:items-end">
+            <div className="flex flex-wrap gap-2">
+              {TRUST.map(({ icon: Icon, label }) => (
+                <span key={label} className="inline-flex items-center gap-2 rounded-full border border-white/14 bg-white/10 px-3 py-2 text-xs text-[#F9E8B5] backdrop-blur-md">
+                  <Icon size={14} />
+                  {label}
+                </span>
+              ))}
+            </div>
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+              {FEATURED_PIECES.map((piece) => (
+                <Link
+                  key={piece.title}
+                  href={piece.href}
+                  className="group grid grid-cols-[82px_1fr] items-center gap-3 bg-[#FEFDF9] p-2 text-[#1a0e0e] shadow-[0_18px_50px_rgba(28,12,12,0.16)] transition duration-300 hover:-translate-y-1"
+                >
+                  <img src={piece.image} alt={piece.title} className="aspect-square w-full object-cover" />
+                  <span>
+                    <span className="block text-[10px] uppercase tracking-[0.22em] text-[#A8771F]">{piece.caption}</span>
+                    <span className="mt-1 flex items-center gap-2 font-display text-xl leading-none">
+                      {piece.title}
+                      <ArrowRight size={14} className="transition group-hover:translate-x-1" />
+                    </span>
+                  </span>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </motion.div>
+      </div>
+    </section>
+  );
 }
