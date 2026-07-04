@@ -1,12 +1,70 @@
-import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import { motion } from 'framer-motion';
-import { LotusDivider } from '@/components/brand';
+import { BadgeCheck, Gem, HandHeart, Mail, Phone, ShieldCheck } from 'lucide-react';
+
 const VALUES = [
-    { icon: '⚜️', title: 'Heritage Craftsmanship', desc: 'Each piece is handcrafted by artisans following 500-year-old Indian jewellery traditions.' },
-    { icon: '✦', title: 'BIS Hallmarked Gold', desc: 'Every piece of gold jewellery carries the Bureau of Indian Standards hallmark — guaranteed purity.' },
-    { icon: '💎', title: 'IGI/GIA Certified Stones', desc: 'All diamonds and precious gemstones come with internationally recognized certification.' },
-    { icon: '🌿', title: 'Responsible Sourcing', desc: 'We partner only with ethically certified mines and refineries for conflict-free jewellery.' },
+  {
+    icon: ShieldCheck,
+    title: 'BIS Hallmarked Gold',
+    desc: 'Every gold piece is purity marked and checked before it reaches your home.',
+  },
+  {
+    icon: Gem,
+    title: 'Certified Stones',
+    desc: 'Diamonds and precious gemstones are sourced with transparent certification.',
+  },
+  {
+    icon: HandHeart,
+    title: 'Handmade in India',
+    desc: 'Kundan, polki, temple and jadau work are finished by experienced karigars.',
+  },
+  {
+    icon: BadgeCheck,
+    title: 'Lifetime Care',
+    desc: 'Sizing, polishing and care guidance keep your heirlooms occasion-ready.',
+  },
 ];
+
 export function BrandStory() {
-    return (_jsx("section", { className: "bg-[#F8F4E8] py-20", children: _jsxs("div", { className: "max-w-7xl mx-auto px-4 sm:px-6", children: [_jsxs("div", { className: "text-center mb-12", children: [_jsx("p", { className: "text-xs tracking-[0.4em] text-[#C9933A] uppercase mb-3", children: "Our Promise" }), _jsxs("h2", { className: "heading-xl text-[#1a0e0e] mb-4", style: { fontFamily: 'var(--font-cormorant)' }, children: ["Crafted with ", _jsx("span", { className: "gold-text", children: "Integrity" })] }), _jsx("p", { className: "text-[#6B6560] max-w-2xl mx-auto leading-relaxed", children: "At PRCJ, every ornament carries the soul of Indian craftsmanship passed down through generations. We merge timeless artisanal techniques with modern design to create jewellery that becomes your most treasured possession." })] }), _jsx(LotusDivider, { className: "mb-12" }), _jsx("div", { className: "grid sm:grid-cols-2 lg:grid-cols-4 gap-6", children: VALUES.map((v, i) => (_jsxs(motion.div, { initial: { opacity: 0, y: 20 }, whileInView: { opacity: 1, y: 0 }, viewport: { once: true }, transition: { delay: i * 0.1 }, className: "text-center p-6 bg-white rounded-2xl border border-[#E8C97A]/30 hover:border-[#C9933A]/50 hover:shadow-lg transition-all duration-300", children: [_jsx("div", { className: "text-3xl mb-4", children: v.icon }), _jsx("h3", { className: "text-base font-semibold text-[#1a0e0e] mb-2", style: { fontFamily: 'var(--font-cormorant)' }, children: v.title }), _jsx("p", { className: "text-sm text-[#6B6560] leading-relaxed", children: v.desc })] }, v.title))) })] }) }));
+  return (
+    <section className="bg-[#F4EFE4] py-20">
+      <div className="mx-auto grid max-w-7xl gap-12 px-4 sm:px-6 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
+        <div>
+          <p className="mb-3 text-xs uppercase tracking-[0.34em] text-[#A8771F]">The PRCJ promise</p>
+          <h2 className="heading-xl text-[#1a0e0e]">Luxury should feel personal, transparent and unhurried.</h2>
+          <p className="mt-5 text-base leading-7 text-[#6B6560]">
+            Since 1997, PRCJ has imagined jewellery around Indian occasions: the bridal morning, the first festival at home, the family gift, the everyday chain that never leaves you. Each piece is chosen for craft, comfort and long-term value.
+          </p>
+          <div className="mt-7 space-y-3 text-sm font-medium text-[#3D1010]">
+            <a href="tel:+919010186899" className="flex items-center gap-3 transition hover:text-[#A8771F]">
+              <Phone size={16} className="text-[#A8771F]" />
+              +91 90101 86899
+            </a>
+            <a href="mailto:prcjewelery@gmail.com" className="flex items-center gap-3 transition hover:text-[#A8771F]">
+              <Mail size={16} className="text-[#A8771F]" />
+              prcjewelery@gmail.com
+            </a>
+          </div>
+        </div>
+
+        <div className="grid gap-4 sm:grid-cols-2">
+          {VALUES.map(({ icon: Icon, title, desc }, index) => (
+            <motion.div
+              key={title}
+              initial={{ opacity: 0, y: 22 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: index * 0.08 }}
+              className="border border-[#D8C292] bg-[#FEFDF9] p-6 shadow-[0_14px_40px_rgba(71,43,16,0.06)]"
+            >
+              <div className="mb-5 grid h-11 w-11 place-items-center rounded-full bg-[#6B1E1E] text-[#F9E8B5]">
+                <Icon size={20} />
+              </div>
+              <h3 className="font-display text-2xl leading-none text-[#1a0e0e]">{title}</h3>
+              <p className="mt-3 text-sm leading-6 text-[#6B6560]">{desc}</p>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
 }

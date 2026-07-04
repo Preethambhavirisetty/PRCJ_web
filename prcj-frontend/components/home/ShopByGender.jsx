@@ -1,42 +1,83 @@
-import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 import { Link } from '@/lib/router.jsx';
 import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
-const CATEGORIES = [
-    {
-        title: "Women's Collection",
-        subtitle: 'Necklaces · Earrings · Bangles · Rings',
-        href: '/shop?gender=women',
-        bg: 'from-[#1a0e0e] to-[#3D1010]',
-        emoji: '👑',
-        accent: '#E8C97A',
-    },
-    {
-        title: "Men's Collection",
-        subtitle: 'Chains · Kadas · Rings · Bracelets',
-        href: '/shop?gender=men',
-        bg: 'from-[#0e1a1a] to-[#0e2b2b]',
-        emoji: '⚜️',
-        accent: '#C9933A',
-    },
-    {
-        title: 'Bridal Sets',
-        subtitle: 'Necklace Sets · Maang Tikka · Nath · Payal',
-        href: '/shop?collection=bridal',
-        bg: 'from-[#1a0e18] to-[#2d1030]',
-        emoji: '🌸',
-        accent: '#E8C97A',
-        featured: true,
-    },
-    {
-        title: 'Kids Jewellery',
-        subtitle: 'Anklets · Small Rings · Chains · Bangles',
-        href: '/shop?gender=kids',
-        bg: 'from-[#1a150e] to-[#2d2210]',
-        emoji: '✨',
-        accent: '#C9933A',
-    },
+
+const COLLECTIONS = [
+  {
+    title: 'Bridal Collections',
+    eyebrow: 'Kundan · Polki · Temple sets',
+    href: '/shop?collection=bridal',
+    image: 'https://images.unsplash.com/photo-1602751584552-8ba73aad10e1?auto=format&fit=crop&w=900&q=86',
+    large: true,
+  },
+  {
+    title: 'Glory Collections',
+    eyebrow: 'Platinum · Silver · Stones',
+    href: '/shop?collection=glory',
+    image: 'https://images.unsplash.com/photo-1602173574767-37ac01994b2a?auto=format&fit=crop&w=700&q=86',
+  },
+  {
+    title: 'Royal',
+    eyebrow: 'Statement sets · Rajwada finish',
+    href: '/shop?collection=royal',
+    image: 'https://images.unsplash.com/photo-1633810542706-90e5ff7557be?auto=format&fit=crop&w=700&q=86',
+  },
+  {
+    title: 'Men Collections',
+    eyebrow: 'Kadas · Chains · Rings',
+    href: '/shop?gender=men',
+    image: 'https://images.unsplash.com/photo-1619119069152-a2b331eb392a?auto=format&fit=crop&w=700&q=86',
+  },
+  {
+    title: 'Revolution Collections',
+    eyebrow: 'Modern cuts · Bold silhouettes',
+    href: '/shop?collection=revolution',
+    image: 'https://images.unsplash.com/photo-1531995811006-35cb42e1a022?auto=format&fit=crop&w=700&q=86',
+  },
 ];
+
 export function ShopByGender() {
-    return (_jsxs("section", { className: "max-w-7xl mx-auto px-4 sm:px-6 py-16", children: [_jsxs("div", { className: "text-center mb-10", children: [_jsx("p", { className: "text-xs tracking-[0.4em] text-[#C9933A] uppercase mb-2", children: "For Everyone" }), _jsx("h2", { className: "heading-xl text-[#1a0e0e]", style: { fontFamily: 'var(--font-cormorant)' }, children: "Shop by Collection" })] }), _jsx("div", { className: "grid grid-cols-2 lg:grid-cols-4 gap-4", children: CATEGORIES.map((cat, i) => (_jsx(motion.div, { initial: { opacity: 0, y: 20 }, whileInView: { opacity: 1, y: 0 }, viewport: { once: true }, transition: { delay: i * 0.1 }, children: _jsxs(Link, { href: cat.href, className: `group block relative rounded-2xl overflow-hidden bg-gradient-to-br ${cat.bg} p-6 h-48 transition-transform duration-300 hover:-translate-y-1`, style: { boxShadow: cat.featured ? `0 8px 32px rgba(201,147,58,0.3)` : 'none' }, children: [cat.featured && (_jsx("div", { className: "absolute top-3 right-3", children: _jsx("span", { className: "text-[10px] bg-[#C9933A] text-white px-2 py-0.5 rounded-full font-bold uppercase tracking-wider", children: "Grand" }) })), _jsx("div", { className: "text-3xl mb-3", children: cat.emoji }), _jsx("h3", { className: "text-base font-semibold text-white mb-1 leading-tight", style: { fontFamily: 'var(--font-cormorant)', color: cat.accent }, children: cat.title }), _jsx("p", { className: "text-xs text-white/50 leading-relaxed mb-4", children: cat.subtitle }), _jsxs("div", { className: "flex items-center gap-1 text-xs font-medium transition-colors", style: { color: cat.accent }, children: ["Shop Now", _jsx(ArrowRight, { size: 12, className: "transition-transform duration-200 group-hover:translate-x-1" })] }), _jsx("div", { className: "absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl", style: { boxShadow: `inset 0 0 40px rgba(201,147,58,0.15)` } })] }) }, cat.title))) })] }));
+  return (
+    <section className="bg-[#FEFDF9] py-20">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6">
+        <div className="mb-10 flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
+          <div>
+            <p className="mb-3 text-xs uppercase tracking-[0.34em] text-[#A8771F]">PRCJ collections</p>
+            <h2 className="heading-xl max-w-2xl text-[#1a0e0e]">Signature lines made for Indian celebrations and modern elegance.</h2>
+          </div>
+          <Link href="/shop" className="group inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.12em] text-[#6B1E1E]">
+            View all collections
+            <ArrowRight size={16} className="transition group-hover:translate-x-1" />
+          </Link>
+        </div>
+
+        <div className="grid auto-rows-[260px] gap-4 lg:grid-cols-4">
+          {COLLECTIONS.map((collection, index) => (
+            <motion.div
+              key={collection.title}
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: index * 0.08 }}
+              className={collection.large ? 'lg:col-span-2 lg:row-span-2' : ''}
+            >
+              <Link href={collection.href} className="group relative block h-full overflow-hidden bg-[#1a0e0e]">
+                <img src={collection.image} alt={collection.title} className="h-full w-full object-cover transition duration-700 group-hover:scale-105" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#1a0e0e]/86 via-[#1a0e0e]/20 to-transparent" />
+                <div className="absolute inset-x-0 bottom-0 p-5 sm:p-6">
+                  <p className="mb-2 text-[10px] uppercase tracking-[0.24em] text-[#E8C97A]">{collection.eyebrow}</p>
+                  <div className="flex items-end justify-between gap-4">
+                    <h3 className="font-display text-3xl leading-none text-white sm:text-4xl">{collection.title}</h3>
+                    <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-[#FEFDF9] text-[#1a0e0e] transition group-hover:bg-[#E8C97A]">
+                      <ArrowRight size={18} />
+                    </span>
+                  </div>
+                </div>
+              </Link>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
 }
